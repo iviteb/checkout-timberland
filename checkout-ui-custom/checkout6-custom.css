@@ -78,11 +78,17 @@ header .header-nevoie-ajutor {
     line-height: 2;
 }
 
+header .header-nevoie-ajutor {
+    margin-right: 1rem;
+}
+
 /* Hide elements */
 
 .full-cart .extensions-checkout-buttons-container,
 #shipping-preview-container,
 .link-choose-more-products-wrapper,
+.link-cart,
+#orderform-title,
 #cart-title {
     display: none !important;
 }
@@ -196,15 +202,19 @@ footer a:active {
 .body-cart .full-cart {
     display: flex !important;
     width: 100%;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
-.summary-template-holder {
+.cart-select-gift-placeholder {
+    width: unset;
+}
+
+.full-cart .summary-template-holder {
     width: 30%;
     margin-left: 4rem;
 }
 
-.summary-template-holder .summary {
+.full-cart .summary-template-holder .summary {
     background-color: #f0f0f0;
     padding: 2rem;
     border-radius: .625rem;
@@ -216,6 +226,7 @@ footer a:active {
 
 .cart-template-holder {
     width: calc(70% - 4rem);
+
 }
 
 .cart-more-options {
@@ -267,7 +278,7 @@ footer a:active {
     margin: 1.875rem 0 0 0;
 }
 
-.full-cart .summary-template-holder .summary {
+.full-cart .full-cart .summary-template-holder .summary {
     display: flex;
 }
 
@@ -413,6 +424,15 @@ footer a:active {
 .cart-header {
     margin-bottom: .625rem;
     min-height: 6.25rem;
+    display: none;
+}
+
+.cart-active .cart-header-left {
+    display: block;
+}
+
+.cart-active .free-shipping-bar {
+    display: flex;
 }
 
 .cart-items-count {
@@ -435,7 +455,7 @@ footer a:active {
     padding-right: 5rem;
     border-radius: .625rem;
     color: #fff;
-    display: flex;
+    display: none;
     align-items: center;
     font-size: .875rem;
 }
@@ -464,9 +484,11 @@ footer a:active {
 
 .deals-container {
     width: calc(70% - 4rem);
+    margin-bottom: 4rem;
+    display: none;
 }
 
-.deals-container,
+.cart-active .deals-container,
 .deal-item {
     display: flex;
 }
@@ -517,6 +539,7 @@ h4.deal-title {
 
 .full-cart .product-item {
     position: relative;
+    transform: scale(1,1);
 }
 
 .full-cart .product-item:not(:last-of-type) {
@@ -642,11 +665,121 @@ h4.deal-title {
 
 /* ============================================================= End Cart Page / Start Email Page ============================================================ */
 
+.row-fluid .orderform-template {
+    min-height: 32rem;
+}
+
+.client-pre-email {
+    border-top: none;
+}
+
+.client-pre-email .emailInfo,
+.pre-email {
+    max-width: 54rem;
+    margin: 0 auto;
+    background-color: #f8f8f8;
+    border-radius: .625rem;
+    width: unset;
+    border: none;
+}
+
+.pre-email {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.client-pre-email .pre-email h3 {
+    margin-bottom: 2.375rem;
+}
+
+.client-pre-email .pre-email h3 span {
+    display: block;
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 2.5rem;
+    margin-bottom: .5rem;
+}
+
+.client-pre-email .pre-email h3 small {
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.375rem;
+    color: #f95a02;
+}
+
+.client-pre-email .client-email {
+    display: flex;
+    max-width: 40rem;
+    width: unset;
+    float: unset;
+    margin: auto;
+    margin-bottom: 1.5rem;
+}
+
+.client-pre-email input {
+    height: 3.125rem;
+    border-radius: 1.5rem;
+    border: 1px solid #aaa;
+    font-size: 1rem;
+    padding-left: 1.375rem;
+    background-color: transparent;
+}
+
+#btn-client-pre-email {
+    min-width: 8rem;
+    margin-left: .675rem;
+    position: static;
+}
+
+.client-pre-email span.error {
+    position: absolute;
+    left: 1rem;
+    bottom: -1.5rem;
+}
+
+.client-pre-email .emailInfo {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    padding-bottom: 4rem;
+}
+
+.client-pre-email .emailInfo .icon-lock {
+    bottom: 2.25rem;
+    right: 1rem;
+}
+
+.client-pre-email .emailInfo h3 {
+    max-width: 40rem;
+    margin: 4.5rem auto 1rem auto;
+    font-size: 1rem;
+    color: #000;
+    font-weight: bold;
+}
+
+.client-pre-email .emailInfo ul.unstyled span {
+    font-size: .875rem;
+    color: #777;
+    line-height: 1.375rem;
+}
+
+.client-pre-email .emailInfo .icon-ok {
+    color: #f95a02;
+    margin-right: .5rem;
+}
 
 
 /* ============================================================= End Email Page / Start Profile step ============================================================ */
 
+.orderform-template-holder > .row-fluid {
+    display: flex;
+    flex-direction: column;
+}
 
+.orderform-template-holder > .row-fluid > * {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
 
 /* ============================================================= End Profile step / Start Shipping step ============================================================ */
 
@@ -658,13 +791,31 @@ h4.deal-title {
 
 /* ============================================================= End Payment step / Start Media queries ============================================================ */
 
+@media screen and (min-width: 720px) {
+        
+    .client-pre-email .emailInfo .icon-lock {
+        position: relative;
+        float: right;
+        right: calc((100% - 40rem)/2);
+        top: -4rem;
+    }
+        
+    .client-pre-email .emailInfo ul.unstyled {
+        margin-left: calc((100% - 40rem)/2);
+    }
+    
+    .client-pre-email .emailInfo {
+        padding-bottom: 1rem;
+    }
+}
+
 @media screen and (min-width: 1025px) {
 
-    .full-cart .summary-template-holder {
+    .full-cart .full-cart .summary-template-holder {
         margin-bottom: 8.75rem;
     }
 
-    .full-cart .summary-template-holder .summary {
+    .full-cart .full-cart .summary-template-holder .summary {
         flex-direction: column;
     }
 
@@ -712,22 +863,27 @@ h4.deal-title {
 
     /* Cart Page */
 
+    
+    .body-cart .full-cart {
+        flex-wrap: wrap;
+    }
+
     .full-cart {
         flex-direction: column;
     }
 
     .deals-container,
-    .summary-template-holder,
+    .full-cart .summary-template-holder,
     .cart-template-holder {
         width: 100%;
     }
     
-    .summary-template-holder {
+    .full-cart .summary-template-holder {
         margin-bottom: 2rem;
         margin-left: 0;
     }
     
-    .summary-template-holder .summary {
+    .full-cart .summary-template-holder .summary {
         flex-wrap: wrap;
     }
 
@@ -843,7 +999,7 @@ h4.deal-title {
         top: .75rem;
     }
 
-    .summary-template-holder .summary {
+    .full-cart .summary-template-holder .summary {
         padding: 1rem;
     }
 
@@ -852,6 +1008,23 @@ h4.deal-title {
     }
 
     /* End Cart Page*/
+
+    /* Email Page*/
+
+    .client-pre-email .client-email {
+        max-width: 94%;
+        flex-direction: column;
+    }
+
+    #btn-client-pre-email {
+        margin-left: unset;
+        order: 3;
+        width: 100%;
+    }
+
+    .client-pre-email span.error {
+        position: static;
+    }
 }
 
 @media screen and (max-width: 490px) {
