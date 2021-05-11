@@ -156,7 +156,7 @@ function addDeals() {
                 </div>
             </div>
         `
-        $(".cart-template").after(dealsTemplate)
+        $(".full-cart").after(dealsTemplate)
     }
 }
 
@@ -222,7 +222,8 @@ function addElement(element, parent, position) {
 }
 
 function cartIsEmpty() {
-
+    $(".cart-header").remove()
+    $(".deals-container").remove()
 }
 
 function setTotalCartItems(items) {
