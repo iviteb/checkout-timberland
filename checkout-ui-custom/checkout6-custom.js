@@ -8,7 +8,7 @@ freeShippingValue = 149
 
 $(document).ready(function() {
 
-    
+    console.log("document ready")
     $('body').on('click', '.link-coupon-add', function () {
         $(".totalizers .summary-coupon-wrap").toggleClass("expanded")
     });
@@ -27,6 +27,9 @@ $(document).ready(function() {
             return vtexjs.checkout.calculateShipping({country: "ROU", postalCode: "030119"})
         }
     })
+
+    if(window.location.hash === "#/payment") moveStepsView()
+
 })
 
 $(window).on('orderFormUpdated.vtex', function(e, orderForm) { 
@@ -40,19 +43,35 @@ $(window).on('orderFormUpdated.vtex', function(e, orderForm) {
     adjustLayout(orderForm)
  })
 
+window.onhashchange = hashChanged
+
+function hashChanged() {
+    const hash = window.location.hash
+
+    if(hash === "#/payment") moveStepsView()
+}
+
 function adjustLayout(orderForm) {
 
     moveElement(".cart-links.cart-links-bottom", ".summary-template-holder .summary")
-    // moveElement(".summary-coupon-wrap:not(.span7)", ".summary-template-holder")
+    moveElement("p.newsletter", ".mini-cart .payment-confirmation-wrap .payment-submit-wrap", "prepend")
+    $(".newsletter-text").text("Vreau sa primesc ofertele si promotiile pentruanimale.ro pe email")
+    addDiscounts(orderForm.totalizers)
     addCartHeader(orderForm)
     addDeals()
+    addTerms( )
     processCartItems()
+    expandSummary(orderForm.items)
+    adjustQuantityBadge()
+    $("#not-corporate-client").text("Nu include datele companiei")
+    $("#cart-note").attr("placeholder", "Observatii comanda")
     
     $(".totalizers .summary-coupon-wrap").removeClass("expanded")
     setTimeout(function() {
         if($(".full-cart .summary-template-holder .totalizers .coupon-fields span.info > span").text() !== "") $(".totalizers .summary-coupon-wrap").addClass("has-code")
     }, 100)
 }
+
 
 // ============================================================= Cart page =============================================================
 
@@ -204,16 +223,152 @@ $(document).on("click", "#cart-coupon-remove", function(e) {
 
 // ============================================================= Payment step =============================================================
 
+var moveStepsViewInterval
+function moveStepsView() {
+  
+  moveStepsViewInterval = setInterval(function() {
+      
+    const existingContainer = $(".payment-group-list-btn")
+    const paymentMethods = $(".payment-group-list-btn .payment-group-item")
+    paymentMethods.length && paymentMethods.each(function() {
+      const container = $("<div></div>").addClass("payment-container")
+      const paymentClass = this.id.split("-").slice(-1)[0]
+      const descriptionBox = $(`.steps-view .${paymentClass}`).parent()
+      container.append(this)
+      descriptionBox.appendTo(container)
+      container.appendTo(existingContainer)
+      clearInterval(moveStepsViewInterval)
+    })
+  }, 200 )
+
+}
+
 // ============================================================= Minicart =============================================================
+
+function addDiscounts(totalizers) {
+    let discounts = 0
+    const totalizersDiscounts = totalizers?.filter(el => el.id === "Discounts")[0]
+    if(totalizersDiscounts) discounts = Math.abs(totalizersDiscounts.value/100).toFixed(2)
+
+    if(!discounts) return $(".totalizers tfoot tr.custom-discounts").remove()
+    if($("tfoot tr.custom-discounts").length) {
+        $("tfoot tr.custom-discounts .discountsTd.monetary").text(`${discounts} lei`)
+    } else {
+        
+        const discountsFullCart = `<tr class="custom-discounts">
+                <td class="discountsTd info" colspan="2">Economisesti</td>
+                <td class="discountsTd monetary" colspan="2">${discounts} lei</td>
+            </tr>`
+        
+        const discountsMiniCart = `<tr class="custom-discounts">
+                <td class="discountsTd info" colspan="1">Economisesti</td>
+                <td class="discountsTd monetary" colspan="2">${discounts} lei</td>
+            </tr>`
+        $(".full-cart .totalizers tfoot").append(discountsFullCart)
+        $(".mini-cart .totalizers tfoot").append(discountsMiniCart)
+    }
+
+}
+
+function expandSummary(items) {
+    if(!items) return
+    const existing = document.querySelectorAll(".summary-images-wrapper")
+    Array.from(existing).forEach((el) => el.remove())
+  
+    const summaryH2 = document.querySelector(".cart-template .cart-fixed h2")
+  
+    const wrapper = createElement("div", {class: "summary-images-wrapper"})
+    const header = createElement("div", {class: "summary-images-header"})
+    // const headerQuantity = createElement("span", {class: "summary-images-quantity"})
+    const headerToggler = createElement("span", {class: "summary-images-toggler"})
+    const imagesContainer = createElement("div", {class: "summary-images-container"})
+  
+    let images = []
+    // let quantity = 0
+  
+    items.forEach(item => {
+      const newImgUrl = item.imageUrl ? item.imageUrl.replace("http", "https") : item.imageUrl
+      images.push({image: newImgUrl, quantity: item.quantity})
+    //   quantity += item.quantity
+    })
+  
+    // headerQuantity.innerHTML = `${quantity} ${window.totalItems > 1 ? " produse" : " produs"}`
+    
+    headerToggler.innerText = document.querySelector(".mini-cart").classList.contains("expanded") ? "Restrange" : "Detalii"
+    // header.appendChild(headerQuantity)
+    header.appendChild(headerToggler)
+    wrapper.appendChild(header)
+    wrapper.appendChild(imagesContainer)
+  
+    images.forEach(image => {
+      const imageContainer = createElement("div", {class: "summary-image-container"})
+  
+      const quantity = createElement("span", {class: "quantity badge"})
+      quantity.innerHTML = image.quantity
+  
+      const imageEl = createElement("img", {src: image.image, class: "summary-image", alt: "product", title: "product image"})
+  
+      imageContainer.appendChild(imageEl)
+      imageContainer.appendChild(quantity)
+      imagesContainer.appendChild(imageContainer)
+    })
+    summaryH2.parentElement.insertBefore(wrapper, summaryH2.nextSibling)
+    wrapper.addEventListener("click", function() {
+      const miniCart = document.querySelector(".mini-cart")
+      miniCart.classList.toggle("expanded")
+      headerToggler.innerText = miniCart.classList.contains("expanded") ? "Restrange" : "Detalii"
+    })
+}
+  
+function adjustQuantityBadge() {
+    const badges = document.querySelectorAll(".mini-cart .badge")
+    badges.forEach(badge => {
+      if(badge.innerText !== "1") badge.classList.add("flex")
+    })
+}
+
+function addTerms() {
+    var checkbox = $("#terms:checked").length;
+    if (checkbox === 0) {
+      $("button[class='submit btn btn-success btn-large btn-block']").addClass(
+        "disabled"
+      );
+    }
+  
+    var checked = `<fieldset id="terms-conditions">
+      <input type="checkbox" id="terms" name="terms" required="required" style="display: inline-block;vertical-align: middle;">
+        <label for="terms" style="display: inline-block;vertical-align: middle;">Sunt de acord cu <a href="/info/termeni-si-conditii" target="_blank">termenii si conditiile</a></label>
+      </fieldset>`;
+    if ($(".payment-submit-wrap").length == 1 && !$(".payment-submit-wrap #terms-conditions").length) {
+      $(".payment-submit-wrap").prepend(checked);
+    }
+    $("#terms").on("click", function () {
+      var checkbox = $("#terms:checked").length;
+      if (checkbox === 1) {
+        $(
+          "button[class='submit btn btn-success btn-large btn-block disabled']"
+        ).removeClass("disabled");
+      } else {
+        $("button[class='submit btn btn-success btn-large btn-block']").addClass(
+          "disabled"
+        );
+      }
+    });
+}
 
 // ============================================================= Helpers =============================================================
 
-function moveElement(selector, newParent) {
-    const element = $(selector)
+function moveElement(selector, newParent, location = "append") {
     const parent = $(newParent)
-    
+    const element = $(selector)
+
     if((element.length && parent.length) && !$(`${newParent} > ${selector}`).length) {
-        $(selector).appendTo($(newParent))
+        if(location === "append") {
+            $(selector).appendTo($(newParent))
+        } else if (location === "prepend") {
+            $(newParent).prepend($(selector))
+        }
+
     }
 }
 
@@ -231,3 +386,11 @@ function setTotalCartItems(items) {
     items.forEach(item => total+= item.quantity)
     totalItems = total
 }
+
+function createElement(type, attributes) {
+    const element =  document.createElement(type)
+    for (key in attributes) {
+      element.setAttribute(key, attributes[key])
+    }
+    return element
+  }
