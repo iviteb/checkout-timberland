@@ -8,7 +8,6 @@ freeShippingValue = 149
 
 $(document).ready(function() {
 
-    console.log("document ready")
     $('body').on('click', '.link-coupon-add', function () {
         $(".totalizers .summary-coupon-wrap").toggleClass("expanded")
     });
@@ -33,7 +32,6 @@ $(document).ready(function() {
 })
 
 $(window).on('orderFormUpdated.vtex', function(e, orderForm) { 
-    
     if(!orderForm.items.length) {
         cartEmpty = true
         return cartIsEmpty()
@@ -59,8 +57,8 @@ function adjustLayout(orderForm) {
     addDiscounts(orderForm.totalizers)
     addCartHeader(orderForm)
     addDeals()
-    addTerms( )
-    processCartItems()
+    addTerms()
+    setTimeout(function() {processCartItems(orderForm.items)}, 100)
     expandSummary(orderForm.items)
     adjustQuantityBadge()
     $("#not-corporate-client").text("Nu include datele companiei")
@@ -96,7 +94,7 @@ function addCartHeader(orderForm) {
                 </div>`
         
         $('.cart-template-holder').prepend(cartHeaderLeft)
-        $('.summary-template-holder').prepend(cartHeaderRight)
+        $('.full-cart .summary-template-holder').prepend(cartHeaderRight)
     }
 
     updateCartItems()
@@ -130,11 +128,12 @@ function updateFreeShippingBar(orderForm) {
 function updateShippingEstimate(logisticsInfo) {
     if(!logisticsInfo.length || !logisticsInfo[0].addressId) return null
     let maxDays = 0
-
     logisticsInfo.forEach(item => {
-        const estimate = item.slas[0].shippingEstimate
-        const days = parseInt(estimate.match(/\d+/))
-        if(days > maxDays) maxDays = days
+        if(item.slas.length) {
+            const estimate = item.slas[0].shippingEstimate
+            const days = parseInt(estimate.match(/\d+/))
+            if(days > maxDays) maxDays = days
+        }
     })
 
     $("#cartShippingEstimate").text(`${maxDays} zile lucratoare`)
@@ -179,14 +178,56 @@ function addDeals() {
     }
 }
 
-function processCartItems() {
+function processCartItems(products) {
 
+    adjustImgSrc()
+    addInStockMessage()
+    addDiscountValue(products)
+}
+
+function adjustImgSrc() {
     $(".product-image img").attr("src", function(index, el) {
         if(el.length) {
             const newSrc = el.replace("55-55", "112-112")
             $(this).attr("src", newSrc)
         }
     })
+}
+
+function addInStockMessage() {
+    const productName = $(".product-item .product-name > a:first-of-type")
+    if(!productName.next().hasClass("custom-in-stock")) {
+        const inStockElement = `<span class="custom-in-stock">In stoc</span>`
+        productName.after(inStockElement)
+    }
+}
+
+function addDiscountValue(products) {
+
+    let productsWidthDiscount = []
+
+    products.forEach( ({price, sellingPrice, quantity, id}) => {
+        const discount = (price - sellingPrice)/100*quantity
+        if(discount) {
+            productsWidthDiscount.push({id, discount})
+        }
+    })
+
+    if (productsWidthDiscount.length) {
+        productsWidthDiscount.forEach(({id, discount}) => {
+            const existing = $(`.cart-items tr[data-sku="${id}"] td.product-name .discount-value`)
+            
+            if(existing.length) {
+                existing.text(discount)
+            } else {
+                const discountTemplate = `<div class="discount-value-container">
+                        Economisesti <span class="discount-value">${discount}</span> lei
+                    </div>`
+                $(`.cart-items tr[data-sku="${id}"] td.product-name`).append(discountTemplate)
+            }
+        
+        })
+    }
 }
 
 $(document).on("click", "#cart-coupon-add", function(e) {
@@ -223,22 +264,22 @@ $(document).on("click", "#cart-coupon-remove", function(e) {
 
 // ============================================================= Payment step =============================================================
 
-var moveStepsViewInterval
+// $(".payment-group-item").click(moveStepsView())
+$(document).on("click", ".payment-group-item", () => moveStepsView())
+
 function moveStepsView() {
-  
-  moveStepsViewInterval = setInterval(function() {
-      
-    const existingContainer = $(".payment-group-list-btn")
-    const paymentMethods = $(".payment-group-list-btn .payment-group-item")
-    paymentMethods.length && paymentMethods.each(function() {
-      const container = $("<div></div>").addClass("payment-container")
-      const paymentClass = this.id.split("-").slice(-1)[0]
-      const descriptionBox = $(`.steps-view .${paymentClass}`).parent()
-      container.append(this)
-      descriptionBox.appendTo(container)
-      container.appendTo(existingContainer)
-      clearInterval(moveStepsViewInterval)
-    })
+  const moveStepsViewInterval = setInterval(function() {
+
+    const activePaymentMethod = $(".payment-group-list-btn .payment-group-item.active")
+    const paymentData = $(".steps-view")
+    let fallback = 0
+    if(activePaymentMethod.length && paymentData.length) {
+        $(activePaymentMethod).after($(paymentData))
+        clearInterval(moveStepsViewInterval)
+    } else {
+        if(fallback == 100) clearInterval(moveStepsView)
+        fallback++
+    }
   }, 200 )
 
 }
