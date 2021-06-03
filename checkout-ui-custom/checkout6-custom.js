@@ -22,9 +22,9 @@ $(document).ready(function() {
         setTotalCartItems(orderForm.items)
         adjustLayout(orderForm)
 
-        if(orderForm.shippingData && orderForm.shippingData.address === null) {
-            return vtexjs.checkout.calculateShipping({country: "ROU", postalCode: "030119"})
-        }
+        // if(orderForm.shippingData && orderForm.shippingData.address === null) {
+        //     return vtexjs.checkout.calculateShipping({country: "BGR", postalCode: "1000"})
+        // }
     })
 
     if(window.location.hash === "#/payment") moveStepsView()
@@ -79,19 +79,13 @@ function addCartHeader(orderForm) {
         const cartHeaderLeft = `
                 <div class="cart-header cart-header-left">
                     <div class="cart-items-count"> 
-                        Cosul tau de cumparaturi: <span class="cartItemsCount"></span>
+                        Shopping bag: <span class="cartItemsCount"></span>
                     </div>
                     <div class="cart-shipping-estimate">
-                        Timp de livrare: <span id="cartShippingEstimate"></span>
+                        Delivery: <span id="cartShippingEstimate"></span>
                     </div>
                 </div>`
-            const cartHeaderRight = `
-                <div class="cart-header cart-header-right free-shipping-bar">
-                    <div class="free-shipping-image-container">
-                        <img src="https://pentruanimale.vtexassets.com/arquivos/free-shipping.png" alt="delivery truck" class="free-shipping-image">
-                    </div>
-                    <div class="free-shipping-message"></div>
-                </div>`
+            const cartHeaderRight = ``
         
         $('.cart-template-holder').prepend(cartHeaderLeft)
         $('.full-cart .summary-template-holder').prepend(cartHeaderRight)
@@ -150,8 +144,8 @@ function addDeals() {
                         <img src="https://pentruanimale.vtexassets.com/arquivos/truck-regular.svg" alt="truck" class="deal-image">
                     </div>
                     <div class="deal-texts">
-                        <h4 class="deal-title">Livrare Gratuita</h4>
-                        <p class="deal-message">Pentru comenzi peste 149 lei, oriunde in tara</p>
+                        <h4 class="deal-title">Free delivery</h4>
+                        <p class="deal-message">For orders over 100 euros, anywhere in the country</p>
                     </div>
                 </div>
                 <div class="deal-item">
@@ -159,8 +153,8 @@ function addDeals() {
                         <img src="https://pentruanimale.vtexassets.com/arquivos/medal-regular.svg" alt="medal" class="deal-image">
                     </div>
                     <div class="deal-texts">
-                        <h4 class="deal-title">Program de fidelizare</h4>
-                        <p class="deal-message">Castigi bani la fiecare comanda facuta</p>
+                        <h4 class="deal-title">Loyalty program</h4>
+                        <p class="deal-message">You earn money on every order placed</p>
                     </div>
                 </div>
                 <div class="deal-item">
@@ -168,8 +162,8 @@ function addDeals() {
                         <img src="https://pentruanimale.vtexassets.com/arquivos/user-headset-regular.svg" alt="headset" class="deal-image">
                     </div>
                     <div class="deal-texts">
-                        <h4 class="deal-title">Consultanta Gratuita</h4>
-                        <p class="deal-message">Poti cere sfatul specialistilor nostri</p>
+                        <h4 class="deal-title">Free consulting</h4>
+                        <p class="deal-message">You can ask the advice of our specialists</p>
                     </div>
                 </div>
             </div>
