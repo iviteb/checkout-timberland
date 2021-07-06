@@ -40,6 +40,8 @@ button, input, textarea, select {
 .checkout-container {
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 /* ============================================================= End Global styles / Start Header ============================================================ */
@@ -354,8 +356,9 @@ footer a:active {
     width: calc(70% - 4rem);
 }
 
-.cart-more-options,
-.totalizers-list .Discounts {
+.cart-more-options
+/* .totalizers-list .Discounts  */
+{
     display: none !important;
 }
 
@@ -426,7 +429,25 @@ tfoot tr.custom-discounts td {
 
 /* Coupon */
 
-
+/* .cart-fixed .forms.summary-coupon-wrap,
+.summary-template-holder .forms.summary-coupon-wrap{
+    position: absolute;
+    top: calc(100% + .75rem);
+    width: 100%;
+    left: 0rem;
+} */
+#cart-link-coupon-add span:last-child{
+    display: none;
+}
+#email-suggestion-address strong,
+#email-suggestion-address span{
+    color: #362d2e;
+}
+/* .mini-cart .cart-fixed,
+.summary-template-holder .row-fluid.summary{
+    position: relative;
+} */
+.cart-fixed
 .summary > .summary-coupon-wrap {
     display: none;
 }
@@ -453,6 +474,7 @@ tfoot tr.custom-discounts td {
 .link-coupon-add:hover {
     color: #000;
     text-decoration: none;
+    width: 100%;
 }
 
 .coupon-fieldset {
@@ -469,7 +491,7 @@ tfoot tr.custom-discounts td {
 }
 
 .coupon-fieldset .coupon-data {
-    display: block !important;
+    display: flex;
 }
 
 .coupon-fieldset .coupon-data::before {
@@ -547,11 +569,14 @@ tfoot tr.custom-discounts td {
     margin-top: 1.5rem;
     width: 100%;
 }
+.summary-coupon-wrap .coupon-data{
+    display: inline-block !important;
+}
 
 #cart-coupon-add {
     width: 40%;
     display: inline-flex !important;
-    color: #fff;
+    color: #362d2e;
     height: 2.5rem;
     justify-content: center;
     align-items: center;
@@ -1311,6 +1336,32 @@ p.ship-state {
 .ship-number:first-child {
     width: 100%;
 }
+#client-profile-data .help.error,
+#shipping-data .help.error{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    width: unset;
+    color: #e00000;
+    font-size: .75rem;
+}
+.CardForm .help.error{
+    color: #e00000;
+    font-size: .75rem;
+}
+#client-profile-data .client-phone .help.error{
+    right: calc(50% + .625rem);
+}
+.client-profile-data .box-client-info-pf .input.required,
+#shipping-data .vtex-omnishipping-1-x-address{
+    position: relative;
+}
+#client-profile-data .box-client-info-pf .input.required input,
+#shipping-data .vtex-omnishipping-1-x-address input,
+#client-company-name, #client-company-nickname, #client-company-document, #ship-postalCode{
+    background-position: right center;
+}
 
 .vtex-omnishipping-1-x-deliveryChannelsWrapper .vtex-omnishipping-1-x-deliveryChannelsComplement {
     display: inline-block;
@@ -1388,7 +1439,9 @@ p.ship-state {
     text-decoration: none;
     outline: none;
 }
-
+#shipping-data  .ship-number  .help.error{
+    right: calc(100% - 10rem);
+}
 .payment-data .payment-group a::before {
     position: absolute;
     width: 1.625rem;

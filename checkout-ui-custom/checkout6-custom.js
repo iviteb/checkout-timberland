@@ -8,6 +8,9 @@ freeShippingValue = 149
 
 $(document).ready(function() {
 
+    console.log($(".coupon-data .link-coupon-add span").first().text("Vreau sa primesc ofertele si promotiile pentruanimale.ro pe email"))
+    $(".totalizers-list .srp-summary-result .info").text("Orice test spre sa mearga")
+
     $('body').on('click', '.link-coupon-add', function () {
         $(".totalizers .summary-coupon-wrap").toggleClass("expanded")
     });
@@ -63,6 +66,11 @@ function adjustLayout(orderForm) {
     adjustQuantityBadge()
     $("#not-corporate-client").text("Nu include datele companiei")
     $("#cart-note").attr("placeholder", "Observatii comanda")
+    $(".totalizers-list .srp-summary-result .info").text("Delivery")
+    setTimeout(function(){
+        $(".coupon-data .link-coupon-add span:first-child").text("Have a voucher code?")
+    }, 10)
+    
     
     $(".totalizers .summary-coupon-wrap").removeClass("expanded")
     setTimeout(function() {
