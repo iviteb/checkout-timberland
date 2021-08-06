@@ -8,9 +8,6 @@ freeShippingValue = 149
 
 $(document).ready(function() {
 
-    console.log($(".coupon-data .link-coupon-add span").first().text("Vreau sa primesc ofertele si promotiile pentruanimale.ro pe email"))
-    $(".totalizers-list .srp-summary-result .info").text("Orice test spre sa mearga")
-
     $('body').on('click', '.link-coupon-add', function () {
         $(".totalizers .summary-coupon-wrap").toggleClass("expanded")
     });
@@ -24,10 +21,8 @@ $(document).ready(function() {
 
         setTotalCartItems(orderForm.items)
         adjustLayout(orderForm)
+        // addDiscountValue(orderForm.items)
 
-        // if(orderForm.shippingData && orderForm.shippingData.address === null) {
-        //     return vtexjs.checkout.calculateShipping({country: "BGR", postalCode: "1000"})
-        // }
     })
 
     if(window.location.hash === "#/payment") moveStepsView()
@@ -56,7 +51,6 @@ function adjustLayout(orderForm) {
 
     moveElement(".cart-links.cart-links-bottom", ".summary-template-holder .summary")
     moveElement("p.newsletter", ".mini-cart .payment-confirmation-wrap .payment-submit-wrap", "prepend")
-    $(".newsletter-text").text("Vreau sa primesc ofertele si promotiile pentruanimale.ro pe email")
     addDiscounts(orderForm.totalizers)
     addCartHeader(orderForm)
     addDeals()
@@ -64,12 +58,15 @@ function adjustLayout(orderForm) {
     setTimeout(function() {processCartItems(orderForm.items)}, 100)
     expandSummary(orderForm.items)
     adjustQuantityBadge()
-    $("#not-corporate-client").text("Nu include datele companiei")
-    $("#cart-note").attr("placeholder", "Observatii comanda")
+    $("#cart-note").attr("placeholder", "Order details")
     $(".totalizers-list .srp-summary-result .info").text("Delivery")
     setTimeout(function(){
         $(".coupon-data .link-coupon-add span:first-child").text("Have a voucher code?")
-    }, 10)
+        $("#not-corporate-client").text("Doesn't include company info")
+        $("#client-profile-data .accordion-toggle").text("Billing data")
+        $("#shipping-data .accordion-toggle").text("Delivery")
+        addDiscountValue(orderForm.items)
+    }, 100)
     
     
     $(".totalizers .summary-coupon-wrap").removeClass("expanded")
@@ -149,7 +146,7 @@ function addDeals() {
             <div class="deals-container">
                 <div class="deal-item">
                     <div class="deal-image-container">
-                        <img src="https://pentruanimale.vtexassets.com/arquivos/truck-regular.svg" alt="truck" class="deal-image">
+                        <img src="https://timberlandbg.vtexassets.com/arquivos/truck-regular.svg" alt="truck" class="deal-image">
                     </div>
                     <div class="deal-texts">
                         <h4 class="deal-title">Free delivery</h4>
@@ -158,7 +155,7 @@ function addDeals() {
                 </div>
                 <div class="deal-item">
                     <div class="deal-image-container">
-                        <img src="https://pentruanimale.vtexassets.com/arquivos/medal-regular.svg" alt="medal" class="deal-image">
+                        <img src="https://timberlandbg.vtexassets.com/arquivos/medal-regular.svg" alt="medal" class="deal-image">
                     </div>
                     <div class="deal-texts">
                         <h4 class="deal-title">Loyalty program</h4>
@@ -167,7 +164,7 @@ function addDeals() {
                 </div>
                 <div class="deal-item">
                     <div class="deal-image-container">
-                        <img src="https://pentruanimale.vtexassets.com/arquivos/user-headset-regular.svg" alt="headset" class="deal-image">
+                        <img src="https://timberlandbg.vtexassets.com/arquivos/user-headset-regular.svg" alt="headset" class="deal-image">
                     </div>
                     <div class="deal-texts">
                         <h4 class="deal-title">Free consulting</h4>
@@ -199,7 +196,7 @@ function adjustImgSrc() {
 function addInStockMessage() {
     const productName = $(".product-item .product-name > a:first-of-type")
     if(!productName.next().hasClass("custom-in-stock")) {
-        const inStockElement = `<span class="custom-in-stock">In stoc</span>`
+        const inStockElement = `<span class="custom-in-stock">In stock</span>`
         productName.after(inStockElement)
     }
 }
@@ -208,8 +205,8 @@ function addDiscountValue(products) {
 
     let productsWidthDiscount = []
 
-    products.forEach( ({price, sellingPrice, quantity, id}) => {
-        const discount = (price - sellingPrice)/100*quantity
+    products.forEach( ({listPrice, sellingPrice, quantity, id}) => {
+        const discount = (listPrice - sellingPrice)/100*quantity
         if(discount) {
             productsWidthDiscount.push({id, discount})
         }
@@ -223,7 +220,7 @@ function addDiscountValue(products) {
                 existing.text(discount)
             } else {
                 const discountTemplate = `<div class="discount-value-container">
-                        Economisesti <span class="discount-value">${discount}</span> lei
+                        You save $ <span class="discount-value">${discount}</span>
                     </div>`
                 $(`.cart-items tr[data-sku="${id}"] td.product-name`).append(discountTemplate)
             }
@@ -295,17 +292,17 @@ function addDiscounts(totalizers) {
 
     if(!discounts) return $(".totalizers tfoot tr.custom-discounts").remove()
     if($("tfoot tr.custom-discounts").length) {
-        $("tfoot tr.custom-discounts .discountsTd.monetary").text(`${discounts} lei`)
+        $("tfoot tr.custom-discounts .discountsTd.monetary").text(`$${discounts}`)
     } else {
         
         const discountsFullCart = `<tr class="custom-discounts">
-                <td class="discountsTd info" colspan="2">Economisesti</td>
-                <td class="discountsTd monetary" colspan="2">${discounts} lei</td>
+                <td class="discountsTd info" colspan="2">You save $</td>
+                <td class="discountsTd monetary" colspan="2"> ${discounts}</td>
             </tr>`
         
         const discountsMiniCart = `<tr class="custom-discounts">
-                <td class="discountsTd info" colspan="1">Economisesti</td>
-                <td class="discountsTd monetary" colspan="2">${discounts} lei</td>
+                <td class="discountsTd info" colspan="1">You save $</td>
+                <td class="discountsTd monetary" colspan="2"> ${discounts}</td>
             </tr>`
         $(".full-cart .totalizers tfoot").append(discountsFullCart)
         $(".mini-cart .totalizers tfoot").append(discountsMiniCart)
@@ -337,7 +334,7 @@ function expandSummary(items) {
   
     // headerQuantity.innerHTML = `${quantity} ${window.totalItems > 1 ? " produse" : " produs"}`
     
-    headerToggler.innerText = document.querySelector(".mini-cart").classList.contains("expanded") ? "Restrange" : "Detalii"
+    headerToggler.innerText = document.querySelector(".mini-cart").classList.contains("expanded") ? "Collapse" : "Details"
     // header.appendChild(headerQuantity)
     header.appendChild(headerToggler)
     wrapper.appendChild(header)
@@ -359,7 +356,7 @@ function expandSummary(items) {
     wrapper.addEventListener("click", function() {
       const miniCart = document.querySelector(".mini-cart")
       miniCart.classList.toggle("expanded")
-      headerToggler.innerText = miniCart.classList.contains("expanded") ? "Restrange" : "Detalii"
+      headerToggler.innerText = miniCart.classList.contains("expanded") ? "Collapse" : "Details"
     })
 }
   
@@ -380,7 +377,7 @@ function addTerms() {
   
     var checked = `<fieldset id="terms-conditions">
       <input type="checkbox" id="terms" name="terms" required="required" style="display: inline-block;vertical-align: middle;">
-        <label for="terms" style="display: inline-block;vertical-align: middle;">Sunt de acord cu <a href="/info/termeni-si-conditii" target="_blank">termenii si conditiile</a></label>
+        <label for="terms" style="display: inline-block;vertical-align: middle;"> <a href="/info/termeni-si-conditii" target="_blank">I agree to the terms and conditions</a></label>
       </fieldset>`;
     if ($(".payment-submit-wrap").length == 1 && !$(".payment-submit-wrap #terms-conditions").length) {
       $(".payment-submit-wrap").prepend(checked);
