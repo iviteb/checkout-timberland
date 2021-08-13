@@ -40,6 +40,8 @@ button, input, textarea, select {
 .checkout-container {
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 /* ============================================================= End Global styles / Start Header ============================================================ */
@@ -123,6 +125,9 @@ header .header-nevoie-ajutor {
     transition: .2s all;
     text-transform: uppercase;
     color: #362d2e;
+}
+.vtex-omnishipping-1-x-option:hover, .vtex-omnishipping-1-x-leanShippingOptionActive{
+    background: transparent !important;
 }
 
 .vtex-omnishipping-1-x-shippingDataDev.active .vtex-omnishipping-1-x-btnDelivery:hover,
@@ -354,8 +359,9 @@ footer a:active {
     width: calc(70% - 4rem);
 }
 
-.cart-more-options,
-.totalizers-list .Discounts {
+.cart-more-options
+/* .totalizers-list .Discounts  */
+{
     display: none !important;
 }
 
@@ -426,7 +432,25 @@ tfoot tr.custom-discounts td {
 
 /* Coupon */
 
-
+/* .cart-fixed .forms.summary-coupon-wrap,
+.summary-template-holder .forms.summary-coupon-wrap{
+    position: absolute;
+    top: calc(100% + .75rem);
+    width: 100%;
+    left: 0rem;
+} */
+#cart-link-coupon-add span:last-child{
+    display: none;
+}
+#email-suggestion-address strong,
+#email-suggestion-address span{
+    color: #362d2e;
+}
+/* .mini-cart .cart-fixed,
+.summary-template-holder .row-fluid.summary{
+    position: relative;
+} */
+.cart-fixed
 .summary > .summary-coupon-wrap {
     display: none;
 }
@@ -453,6 +477,7 @@ tfoot tr.custom-discounts td {
 .link-coupon-add:hover {
     color: #000;
     text-decoration: none;
+    width: 100%;
 }
 
 .coupon-fieldset {
@@ -469,22 +494,24 @@ tfoot tr.custom-discounts td {
 }
 
 .coupon-fieldset .coupon-data {
-    display: block !important;
+    display: flex;
 }
 
 .coupon-fieldset .coupon-data::before {
-    content: url("https://pentruanimale.vtexassets.com/arquivos/tag.svg");
+    content: url("https://timberlandbg.vtexassets.com/arquivos/coupon.png");
     margin: 0 .5rem;
     position: relative;
     bottom: -.125rem;
 }
 
 .summary-coupon-wrap .link-coupon-add::after {
-    content: url("https://pentruanimale.vtexassets.com/arquivos/arrow-down.svg");
+    content: url("https://timberlandbg.vtexassets.com/arquivos/down-arrow.svg");
     position: absolute;
-    top: 1.375rem;
+    top: 1.5rem;
     right: 7%;
     display: inline-block;
+    width: .875rem;
+    height: .875rem;
 }
 
 .totalizers .summary-coupon-wrap span.info > span {
@@ -499,7 +526,7 @@ tfoot tr.custom-discounts td {
 }
 
 .totalizers .summary-coupon-wrap span.info > span:not(empty):first-child::before {
-    content: url("https://pentruanimale.vtexassets.com/arquivos/check-square-solid.svg");
+    content: url("https://timberlandbg.vtexassets.com/arquivos/checkbox.svg");
     margin-right: .5rem;
     position: relative;
     top: .3rem;
@@ -510,7 +537,7 @@ tfoot tr.custom-discounts td {
 }
 
 #cart-coupon-remove::after {
-    content: url("https://pentruanimale.vtexassets.com/arquivos/times-regular.svg");
+    content: url("https://timberlandbg.vtexassets.com/arquivos/times-regular.svg");
     width: 15px;
     height: 15px;
     position: absolute;
@@ -547,11 +574,14 @@ tfoot tr.custom-discounts td {
     margin-top: 1.5rem;
     width: 100%;
 }
+.summary-coupon-wrap .coupon-data{
+    display: inline-block !important;
+}
 
 #cart-coupon-add {
     width: 40%;
     display: inline-flex !important;
-    color: #fff;
+    color: #362d2e;
     height: 2.5rem;
     justify-content: center;
     align-items: center;
@@ -777,12 +807,12 @@ a.discount,
 }
 
 .cart-items .item-quantity-change-decrement i::before {
-    content: url('https://pentruanimale.vtexassets.com/arquivos/minus-light.svg');
+    content: url('https://timberlandbg.vtexassets.com/arquivos/minus.svg');
     width: 1rem;
 }
 
 .cart-items .item-quantity-change-increment i::before {
-    content: url('https://pentruanimale.vtexassets.com/arquivos/plus-light.svg');
+    content: url('https://timberlandbg.vtexassets.com/arquivos/plus.svg');
     width: 1rem;
 }
 
@@ -822,21 +852,24 @@ a.discount,
 }
 
 .cart-items .item-remove .item-link-remove::before {
-    content: "Sterge";
+    content: "Delete";
     font-size: .75rem;
     color: #777;
     position: absolute;
     left: -2.75rem;
     line-height: 1rem;
-    top: 0.25rem;
+    top: 0.125rem;
 }
 
 .cart-items .item-remove .item-remove-ico::before {
-    content: url('https://pentruanimale.vtexassets.com/arquivos/trash-alt.svg');
+    content: url('https://timberlandbg.vtexassets.com/arquivos/trash-alt.svg');
 }
 
 .cart-items tr td[colspan="7"] {
     width: 100%;
+}
+p.newsletter {
+    margin-bottom: 1rem;
 }
 
 /* End Products */
@@ -880,7 +913,7 @@ a.discount,
 .item-attachments-item-fields select.item-attachment-value {
     border: 1px solid #aaa;
     border-radius: .375rem;
-    background-image: url('https://pentruanimale.vtexassets.com/arquivos/chevron-down-light.svg');
+    background-image: url('https://timberlandbg.vtexassets.com/arquivos/down-chevron.svg');
     background-repeat: no-repeat;
     background-position-x: 94%;
     background-position-y: 50%;
@@ -902,22 +935,32 @@ a.discount,
     font-weight: 600;
     box-shadow: none;
     border: none;
-    background-color: #dbebeb;
+    background-color: #eb8102;
     border-radius: 1.125rem;
     min-height: 2.125rem;
     background-image: none;
     text-shadow: none;
     display: inline-flex !important;
     align-items: center;
-    color: #000;
+    color: #fff;
     padding: 0 2rem !important;
     font-size: .75rem;
     transition: .2s all;
+    opacity: .8;
+}
+.item-attachments-content,
+.item-attachments-head{
+    background-color: transparent;
+}
+.iframe-credit-card-payment-group .PaymentValue{
+    background-color: transparent;
+    border: 1px solid #979797;
+    margin: 1rem 0;
 }
 
 .add-item-attachment.btn:hover {
     background-color: #eb8102;
-    color: #fff;
+    opacity: 1;
 }
 
 .item-attachment-remove .item-link-remove {
@@ -996,10 +1039,11 @@ a.discount,
     width: 34%;
 }
 
-.client-pre-email span.error {
+#client-profile-data .pre-email span.error {
     position: absolute;
-    left: 1rem;
+    top: unset;
     bottom: -1.5rem;
+    right: unset;
 }
 
 .client-pre-email .emailInfo {
@@ -1277,7 +1321,7 @@ select {
     -webkit-appearance: none;
     -moz-appearance: none;
     background: transparent;
-    background-image: url("https://pentruanimale.vtexassets.com/arquivos/chevron-down-light.svg");
+    background-image: url("https://timberlandbg.vtexassets.com/arquivos/chevron-down-light.svg");
     background-repeat: no-repeat;
     background-position-x: 94%;
     background-position-y: 50%;
@@ -1287,6 +1331,10 @@ select {
 
 .vtex-omnishipping-1-x-addressFormPart1 p.ship-city {
     margin-right: 0;
+}
+.accordion-group .vtex-omnishipping-1-x-summaryChange{
+    border-color: #eb8102;
+    color: #eb8102;
 }
 
 p.ship-state {
@@ -1298,7 +1346,7 @@ p.ship-state {
 }
 
 .ship-street {
-    width: calc(70% - .625rem);
+    width: 100%;
     margin-right: 1.25rem;
     float: left;
 }
@@ -1307,9 +1355,46 @@ p.ship-state {
     width: calc(30% - .625rem);
     margin-right: 0 !important;
 }
+.input.ship-receiverName {
+    order: -1;
+}
+.vtex-omnishipping-1-x-address p.input{
+    margin-bottom: 1rem;
+    position: relative;
+}
+.vtex-omnishipping-1-x-address div{
+    display: flex;
+    flex-direction: column;
+}
 
 .ship-number:first-child {
     width: 100%;
+}
+#client-profile-data .help.error,
+#shipping-data .help.error{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    width: unset;
+    color: #e00000;
+    font-size: .75rem;
+}
+.CardForm .help.error{
+    color: #e00000;
+    font-size: .75rem;
+}
+#client-profile-data .client-phone .help.error{
+    right: calc(50% + .625rem);
+}
+.client-profile-data .box-client-info-pf .input.required,
+#shipping-data .vtex-omnishipping-1-x-address{
+    position: relative;
+}
+#client-profile-data .box-client-info-pf .input.required input,
+#shipping-data .vtex-omnishipping-1-x-address input,
+#client-company-name, #client-company-nickname, #client-company-document, #ship-postalCode{
+    background-position: right center;
 }
 
 .vtex-omnishipping-1-x-deliveryChannelsWrapper .vtex-omnishipping-1-x-deliveryChannelsComplement {
@@ -1351,6 +1436,10 @@ p.ship-state {
 
 /* ============================================================= End Shipping step / Start Payment step ============================================================ */
 
+.ChangeNumberOfPayments a,
+.ship-postalCode a{
+    color: #eb8102;
+} 
 .payment-group {
     width: 100%;
     background: transparent;
@@ -1388,7 +1477,9 @@ p.ship-state {
     text-decoration: none;
     outline: none;
 }
-
+#shipping-data  .ship-number  .help.error{
+    right: calc(100% - 10rem);
+}
 .payment-data .payment-group a::before {
     position: absolute;
     width: 1.625rem;
@@ -1612,7 +1703,7 @@ input[type="checkbox"]:checked {
     border-color: transparent;
 }
 input[type="checkbox"]:checked::before {
-	content: url("https://pentruanimale.vtexassets.com/arquivos/checkbox.svg");
+	content: url("https://timberlandbg.vtexassets.com/arquivos/checkbox.svg");
     width: 100%;
     height: 100%;
     position: absolute;
@@ -1647,7 +1738,7 @@ input[type="checkbox"]:checked::before {
 
 .summary-images-toggler::after {
     content: "";
-    background: url("https://pentruanimale.vtexassets.com/arquivos/chevron-down-light.svg");
+    background: url("https://timberlandbg.vtexassets.com/arquivos/down-chevron.svg");
     background-repeat: no-repeat;
     background-position: center;
     width: .875rem;
@@ -1771,7 +1862,7 @@ input[type="checkbox"]:checked::before {
 }
 
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1025px) {
 
     /* Generale */
 
@@ -1785,6 +1876,15 @@ input[type="checkbox"]:checked::before {
 
     .footer-left-right img:first-of-type {
         margin-bottom: .25rem;
+    }
+    .cart-template.full-cart .summary-template-holder{
+        margin-top: .5rem;
+    }
+    footer {
+        height: unset;
+    }
+    .footer-right {
+        padding-top: 1rem;
     }
 
     /* Cart Page */
@@ -1878,10 +1978,6 @@ input[type="checkbox"]:checked::before {
     .header-nevoie-ajutor,
     .cart-items .discount-value-container {
         display: none;
-    }
-
-    footer {
-        height: unset;
     }
 
     footer .container {
