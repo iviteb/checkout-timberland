@@ -58,13 +58,13 @@ function adjustLayout(orderForm) {
     setTimeout(function() {processCartItems(orderForm.items)}, 100)
     expandSummary(orderForm.items)
     adjustQuantityBadge()
-    $("#cart-note").attr("placeholder", "Order details")
-    $(".totalizers-list .srp-summary-result .info").text("Delivery")
+    // $("#cart-note").attr("placeholder", "Order details")
+    // $(".totalizers-list .srp-summary-result .info").text("Delivery")
     setTimeout(function(){
-        $(".coupon-data .link-coupon-add span:first-child").text("Have a voucher code?")
-        $("#not-corporate-client").text("Doesn't include company info")
-        $("#client-profile-data .accordion-toggle").text("Billing data")
-        $("#shipping-data .accordion-toggle").text("Delivery")
+        // $(".coupon-data .link-coupon-add span:first-child").text("Have a voucher code?")
+        // $("#not-corporate-client").text("Doesn't include company info")
+        // $("#client-profile-data .accordion-toggle").text("Billing data")
+        // $("#shipping-data .accordion-toggle").text("Delivery")
         addDiscountValue(orderForm.items)
     }, 100)
     
@@ -334,7 +334,7 @@ function expandSummary(items) {
   
     // headerQuantity.innerHTML = `${quantity} ${window.totalItems > 1 ? " produse" : " produs"}`
     
-    headerToggler.innerText = document.querySelector(".mini-cart").classList.contains("expanded") ? "Collapse" : "Details"
+    headerToggler.innerText = document.querySelector(".mini-cart").classList.contains("expanded") ? "Свиване" : "Подробности"
     // header.appendChild(headerQuantity)
     header.appendChild(headerToggler)
     wrapper.appendChild(header)
@@ -356,7 +356,7 @@ function expandSummary(items) {
     wrapper.addEventListener("click", function() {
       const miniCart = document.querySelector(".mini-cart")
       miniCart.classList.toggle("expanded")
-      headerToggler.innerText = miniCart.classList.contains("expanded") ? "Collapse" : "Details"
+      headerToggler.innerText = miniCart.classList.contains("expanded") ? "Свиване" : "Подробности"
     })
 }
   
