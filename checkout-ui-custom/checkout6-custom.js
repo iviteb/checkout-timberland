@@ -12,7 +12,7 @@ $(document).ready(function() {
         $(".totalizers .summary-coupon-wrap").toggleClass("expanded")
     });
 
-    vtexjs.checkout.getOrderForm().then(function (orderForm) { 
+    vtexjs.checkout.getOrderForm().then(function (orderForm) {
 
         if(!orderForm.items.length) {
             cartEmpty = true
@@ -29,7 +29,7 @@ $(document).ready(function() {
 
 })
 
-$(window).on('orderFormUpdated.vtex', function(e, orderForm) { 
+$(window).on('orderFormUpdated.vtex', function(e, orderForm) {
     if(!orderForm.items.length) {
         cartEmpty = true
         return cartIsEmpty()
@@ -67,8 +67,6 @@ function adjustLayout(orderForm) {
         // $("#shipping-data .accordion-toggle").text("Delivery")
         addDiscountValue(orderForm.items)
     }, 100)
-    
-    
     $(".totalizers .summary-coupon-wrap").removeClass("expanded")
     setTimeout(function() {
         if($(".full-cart .summary-template-holder .totalizers .coupon-fields span.info > span").text() !== "") $(".totalizers .summary-coupon-wrap").addClass("has-code")
@@ -83,7 +81,7 @@ function addCartHeader(orderForm) {
     if(!$(".cart-header").length) {
         const cartHeaderLeft = `
                 <div class="cart-header cart-header-left">
-                    <div class="cart-items-count"> 
+                    <div class="cart-items-count">
                         Shopping bag: <span class="cartItemsCount"></span>
                     </div>
                     <div class="cart-shipping-estimate">
@@ -91,7 +89,7 @@ function addCartHeader(orderForm) {
                     </div>
                 </div>`
             const cartHeaderRight = ``
-        
+
         $('.cart-template-holder').prepend(cartHeaderLeft)
         $('.full-cart .summary-template-holder').prepend(cartHeaderRight)
     }
@@ -215,7 +213,7 @@ function addDiscountValue(products) {
     if (productsWidthDiscount.length) {
         productsWidthDiscount.forEach(({id, discount}) => {
             const existing = $(`.cart-items tr[data-sku="${id}"] td.product-name .discount-value`)
-            
+
             if(existing.length) {
                 existing.text(discount)
             } else {
@@ -224,7 +222,7 @@ function addDiscountValue(products) {
                     </div>`
                 $(`.cart-items tr[data-sku="${id}"] td.product-name`).append(discountTemplate)
             }
-        
+
         })
     }
 }
@@ -238,7 +236,7 @@ $(document).on("click", "#cart-coupon-add", function(e) {
       clearInterval(couponInterval)
     }, 200)
 })
-  
+
 function checkCoupon() {
     const couponSpan = $(".full-cart .summary-template-holder .totalizers .coupon-fields span.info > span")
     const hasValue = couponSpan.text() !== ""
@@ -250,7 +248,7 @@ function checkCoupon() {
       }
     }
 }
-  
+
 $(document).on("click", "#cart-coupon-remove", function(e) {
     $(".totalizers .summary-coupon-wrap").removeClass("has-code")
 })
@@ -294,12 +292,12 @@ function addDiscounts(totalizers) {
     if($("tfoot tr.custom-discounts").length) {
         $("tfoot tr.custom-discounts .discountsTd.monetary").text(`$${discounts}`)
     } else {
-        
+
         const discountsFullCart = `<tr class="custom-discounts">
                 <td class="discountsTd info" colspan="2">You save $</td>
                 <td class="discountsTd monetary" colspan="2"> ${discounts}</td>
             </tr>`
-        
+
         const discountsMiniCart = `<tr class="custom-discounts">
                 <td class="discountsTd info" colspan="1">You save $</td>
                 <td class="discountsTd monetary" colspan="2"> ${discounts}</td>
@@ -314,40 +312,40 @@ function expandSummary(items) {
     if(!items) return
     const existing = document.querySelectorAll(".summary-images-wrapper")
     Array.from(existing).forEach((el) => el.remove())
-  
+
     const summaryH2 = document.querySelector(".cart-template .cart-fixed h2")
-  
+
     const wrapper = createElement("div", {class: "summary-images-wrapper"})
     const header = createElement("div", {class: "summary-images-header"})
     // const headerQuantity = createElement("span", {class: "summary-images-quantity"})
     const headerToggler = createElement("span", {class: "summary-images-toggler"})
     const imagesContainer = createElement("div", {class: "summary-images-container"})
-  
+
     let images = []
     // let quantity = 0
-  
+
     items.forEach(item => {
       const newImgUrl = item.imageUrl ? item.imageUrl.replace("http", "https") : item.imageUrl
       images.push({image: newImgUrl, quantity: item.quantity})
     //   quantity += item.quantity
     })
-  
+
     // headerQuantity.innerHTML = `${quantity} ${window.totalItems > 1 ? " produse" : " produs"}`
-    
+
     headerToggler.innerText = document.querySelector(".mini-cart").classList.contains("expanded") ? "Свиване" : "Подробности"
     // header.appendChild(headerQuantity)
     header.appendChild(headerToggler)
     wrapper.appendChild(header)
     wrapper.appendChild(imagesContainer)
-  
+
     images.forEach(image => {
       const imageContainer = createElement("div", {class: "summary-image-container"})
-  
+
       const quantity = createElement("span", {class: "quantity badge"})
       quantity.innerHTML = image.quantity
-  
+
       const imageEl = createElement("img", {src: image.image, class: "summary-image", alt: "product", title: "product image"})
-  
+
       imageContainer.appendChild(imageEl)
       imageContainer.appendChild(quantity)
       imagesContainer.appendChild(imageContainer)
@@ -359,7 +357,7 @@ function expandSummary(items) {
       headerToggler.innerText = miniCart.classList.contains("expanded") ? "Свиване" : "Подробности"
     })
 }
-  
+
 function adjustQuantityBadge() {
     const badges = document.querySelectorAll(".mini-cart .badge")
     badges.forEach(badge => {
@@ -374,10 +372,10 @@ function addTerms() {
         "disabled"
       );
     }
-  
+
     var checked = `<fieldset id="terms-conditions">
       <input type="checkbox" id="terms" name="terms" required="required" style="display: inline-block;vertical-align: middle;">
-        <label for="terms" style="display: inline-block;vertical-align: middle;"> <a href="/info/termeni-si-conditii" target="_blank">I agree to the terms and conditions</a></label>
+        <label for="terms" style="display: inline-block;vertical-align: middle;"> <a href="/pages/usloviya-za-polzvane" target="_blank">Съгласен съм с Общите Правила и Условия</a></label>
       </fieldset>`;
     if ($(".payment-submit-wrap").length == 1 && !$(".payment-submit-wrap #terms-conditions").length) {
       $(".payment-submit-wrap").prepend(checked);
@@ -434,3 +432,16 @@ function createElement(type, attributes) {
     }
     return element
   }
+
+// Translations
+
+$(document).ready(function() {
+  window.vtex.i18n["bg"].global.add = "Добави"
+  window.vtex.i18n["bg"].global.goToShipping = "ПРОДЪЛЖИ КЪМ ДОСТАВКА"
+  window.vtex.i18n["bg"].clientProfileData.placeholderEmail = "Въведете имейл адрес"
+  window.vtex.i18n["bg"].clientProfileData.includeCo = "Добави фирмени данни"
+  window.vtex.i18n["bg"].totalizers.coupon = "промо код"
+  window.vtex.i18n["bg"].totalizers.couponCode = "Въведи кода"
+  window.vtex.i18n["bg"].paymentData.confirm = "ПОРЪЧАЙ"
+  $.extend(true, window.vtex.ko.validation.messages, { "bg-BG": { required: "Полето е задължително" }})
+})
