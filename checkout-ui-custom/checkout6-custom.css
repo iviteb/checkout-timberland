@@ -44,6 +44,10 @@ button, input, textarea, select {
     overflow-y: auto;
 }
 
+.payment-confirmation-modal {
+  height: unset;
+}
+
 /* ============================================================= End Global styles / Start Header ============================================================ */
 
 header {
@@ -220,11 +224,12 @@ header .header-nevoie-ajutor {
 
 
 footer {
-    height: 9rem;
+    /* height: 9rem; */
     width: 100%;
     background-color: #362d2e;
     margin: auto;
     margin-bottom: 0;
+    padding: 1rem 0;
 }
 
 footer .container {
@@ -244,48 +249,11 @@ footer a:active {
     color: #eb8102;
 }
 
-.footer-left {
-    display: flex;
-    height: 100%;
-    flex: 1;
-    align-items: center;
-    justify-content: space-between;
-}
-
 .footer-links {
     font-size: .875rem;
     font-weight: 500;
     margin-bottom: 0.625rem;
     color: #fff;
-}
-
-.footer-left-left span {
-    font-size: 0.688rem;
-    font-weight: 500;
-    margin-top: 1rem;
-    display: block;
-    color: #fff;
-}
-
-.footer-payment-methods img {
-    height: 1.375rem;
-    margin-right: .5rem;
-}
-
-.footer-left-right {
-    margin-left: auto;
-}
-
-.footer-left-right img {
-    width: 4rem;
-}
-
-.footer-left-right a:hover {
-    filter: drop-shadow(0 0 3px #eb8102);
-}
-
-.footer-left-right img:first-of-type {
-    margin-right: 1rem;
 }
 
 .lookatme, .item-unavailable {
@@ -302,6 +270,7 @@ footer a:active {
     padding-top: 0.375rem;
 }
 
+.footer-left,
 .footer-right {
     height: 100%;
     display: flex;
@@ -310,7 +279,7 @@ footer a:active {
     font-size: .875rem;
     padding-left: 2.25rem;
     color: #fff;
-    width: 40%;
+    flex: 1;
 }
 
 .footer-right span {
@@ -439,9 +408,9 @@ tfoot tr.custom-discounts td {
     width: 100%;
     left: 0rem;
 } */
-#cart-link-coupon-add span:last-child{
+/* #cart-link-coupon-add span:last-child{
     display: none;
-}
+} */
 #email-suggestion-address strong,
 #email-suggestion-address span{
     color: #362d2e;
@@ -707,7 +676,7 @@ a.discount,
     position: relative;
 }
 
-.cart-items tr.product-item { 
+.cart-items tr.product-item {
     display: flex;
     justify-content: space-between;
     height: 11rem;
@@ -1213,7 +1182,7 @@ p.input.text input:not([type="checkbox"]) {
     border: 1px solid #ccc;
     padding: .875rem 1rem;
     border-radius: .25rem;
-    box-shadow: inset 0 1px 5px 0 rgba(0, 0, 0, 0.1);  
+    box-shadow: inset 0 1px 5px 0 rgba(0, 0, 0, 0.1);
     background-color: #ffffff;
     font-size: .875rem;
     color: #072727;
@@ -1262,7 +1231,8 @@ p.client-first-name {
     order: 2;
 }
 
-.client-profile-data h5.visible {
+.client-profile-data h5.visible,
+.client-profile-data .client-document {
     display: none;
 }
 
@@ -1439,7 +1409,7 @@ p.ship-state {
 .ChangeNumberOfPayments a,
 .ship-postalCode a{
     color: #eb8102;
-} 
+}
 .payment-group {
     width: 100%;
     background: transparent;
@@ -1468,7 +1438,7 @@ p.ship-state {
     font-size: 1rem;
 }
 
-#payment-group-creditCardPaymentGroup .payment-group-item-text, 
+#payment-group-creditCardPaymentGroup .payment-group-item-text,
 #payment-group-PayPalPlusPaymentGroup .payment-group-item-text {
     background-image: none;
 }
@@ -1799,18 +1769,18 @@ input[type="checkbox"]:checked::before {
 
 
 @media screen and (min-width: 720px) {
-        
+
     .client-pre-email .emailInfo .icon-lock {
         position: relative;
         float: right;
         right: calc((100% - 40rem)/2);
         top: -4rem;
     }
-        
+
     .client-pre-email .emailInfo ul.unstyled {
         margin-left: calc((100% - 40rem)/2);
     }
-    
+
     .client-pre-email .emailInfo {
         padding-bottom: 1rem;
     }
@@ -1824,19 +1794,19 @@ input[type="checkbox"]:checked::before {
         padding-left: 4rem;
         padding-right: 4rem;
     }
-    
+
     .cart-items .summary-template-holder {
         min-width: 22.5rem;
     }
-    
+
     .cart-items .cart-template-holder {
         min-width: 55.5rem;
     }
-    
-    .cart-items tr.product-item { 
+
+    .cart-items tr.product-item {
         padding: 2rem;
     }
-    
+
     .cart-items .product-image {
         margin-right: 2rem;
     }
@@ -1870,21 +1840,8 @@ input[type="checkbox"]:checked::before {
         padding-right: unset;
     }
 
-    .footer-payment-methods img {
-        margin-bottom: .5rem;
-    }
-
-    .footer-left-right img:first-of-type {
-        margin-bottom: .25rem;
-    }
     .cart-template.full-cart .summary-template-holder{
         margin-top: .5rem;
-    }
-    footer {
-        height: unset;
-    }
-    .footer-right {
-        padding-top: 1rem;
     }
 
     /* Cart Page */
@@ -1892,7 +1849,7 @@ input[type="checkbox"]:checked::before {
     .body-cart .full-cart {
         flex-wrap: wrap;
     }
-    
+
     .full-cart {
         flex-direction: column;
     }
@@ -1902,12 +1859,12 @@ input[type="checkbox"]:checked::before {
     .cart-template-holder {
         width: 100%;
     }
-    
+
     .full-cart .summary-template-holder {
         margin-bottom: 2rem;
         margin-left: 0;
     }
-    
+
     .full-cart .summary-template-holder .summary {
         flex-wrap: wrap;
     }
@@ -1984,25 +1941,16 @@ input[type="checkbox"]:checked::before {
         flex-direction: column;
         width: 100%;
     }
-    
+
     .footer-left,
     .footer-right {
         width: 100%;
         padding: 1rem;
     }
-    
+
     .footer-left {
         order: 2;
         flex-direction: column;
-    }
-
-    .footer-left-left {
-        order: 2;
-    }
-
-    .footer-left-right {
-        margin-left: unset;
-        margin-bottom: 1rem;
     }
 
     .footer-right {
@@ -2014,7 +1962,7 @@ input[type="checkbox"]:checked::before {
     .deals-container {
         flex-direction: column;
     }
-    
+
     .deal-item:not(:last-of-type) {
         margin-bottom: 1rem;
     }
@@ -2022,7 +1970,7 @@ input[type="checkbox"]:checked::before {
     .summary-totalizers .summary-coupon-wrap .summary-coupon {
         padding: .75rem .5rem;
     }
-    
+
     .summary-coupon-wrap .link-coupon-add::after {
         top: .75rem;
     }
@@ -2034,7 +1982,7 @@ input[type="checkbox"]:checked::before {
     .free-shipping-bar {
         padding-right: 1rem;
     }
-        
+
     .cart-items .product-image img {
         width: 4rem;
         height: 4rem;
@@ -2088,7 +2036,7 @@ input[type="checkbox"]:checked::before {
 
     /* Cart Items */
 
-    
+
     .cart-items .product-image img {
         width: 3rem;
         height: 3rem;
@@ -2109,8 +2057,8 @@ input[type="checkbox"]:checked::before {
         left: unset;
         margin-right: 0;
     }
-    .cart-items .product-image, 
-    .cart-items .product-name, 
+    .cart-items .product-image,
+    .cart-items .product-name,
     .cart-items .quantity {
         height: unset;
     }
@@ -2191,3 +2139,41 @@ input[type="checkbox"]:checked::before {
         white-space: normal;
     }
 }
+
+
+/* Translations */
+
+#btn-go-to-payment,
+#open-shipping,
+.step .ship-complement label,
+.step .ship-city label,
+.vtex-omnishipping-1-x-shippingSectionTitle.delivery-address-title {
+  font-size: 0;
+}
+
+.vtex-omnishipping-1-x-shippingSectionTitle.delivery-address-title::before {
+  content: "Добавете информация за доставка";
+  font-size: 13px;
+}
+
+#btn-go-to-payment::before,
+.step .ship-city label::before,
+.step .ship-complement label::before {
+  content: "Допълнителна информация";
+  font-size: .875rem;
+}
+
+.step .ship-city label::before {
+  content: "Населено място";
+}
+
+#open-shipping::before {
+  font-size: 12px;
+  content: "Променете адреса за доставка";
+}
+
+#btn-go-to-payment::before {
+  content: "ПРОДЪЛЖИ КЪМ ПЛАЩАНЕ";
+}
+
+/* End translations */
